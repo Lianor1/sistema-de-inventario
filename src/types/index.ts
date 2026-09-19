@@ -1,4 +1,4 @@
-﻿export interface Product {
+export interface Product {
   id?: string;
   familyId?: string; // RelaciÃ³n Padre (Familia)
   familiaNombre?: string; // Desnormalizado para evitar joins costosos
@@ -79,13 +79,19 @@ export interface ProductBatch {
 export interface Supplier {
   id?: string;
   razonSocial: string;
-  ruc: string;
-  contacto: string;
+  ruc?: string;
+  contacto?: string;
   telefono: string;
-  email: string;
-  direccion: string;
+  email?: string;
+  direccion?: string;
   categoria: string;
-  estado: 'Activo' | 'Inactivo';
+  estado?: 'Activo' | 'Inactivo';
+  
+  // Kanban mockup fields
+  producto?: string;
+  precioCompra?: string;
+  tipoDevolucion?: 'Taking Return' | 'Not Taking Return';
+  enCamino?: number;
 }
 
 export interface CashShift {
