@@ -1,4 +1,4 @@
-import { Routes, Route, Link, useNavigate, useLocation, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import { useAuth } from '../contexts/AuthContext';
@@ -14,7 +14,8 @@ import { Expenses } from './Expenses';
 import { Shrinkage } from './Shrinkage';
 import { PurchaseHistory } from './PurchaseHistory';
 import { Home } from './Home';
-import { LogOut, Package, ShoppingCart, Users, PieChart, Store, Truck, ShieldAlert, PackagePlus, ClipboardList, DollarSign, TrendingDown, AlertTriangle, History, Activity, Search, Bell } from 'lucide-react';
+import { Reports } from './Reports';
+import { LogOut, Package, ShoppingCart, Users, PieChart, Store, Truck, ShieldAlert, PackagePlus, ClipboardList, DollarSign, TrendingDown, AlertTriangle, History, Activity, Search, Bell, BarChart2 } from 'lucide-react';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -32,7 +33,9 @@ const Dashboard = () => {
 
   const allMenuItems = [
     { path: '/', icon: Activity, label: 'Dashboard', roles: ['Super Administrador', 'Administrador'] },
-    { path: '/productos', icon: Package, label: 'Inventario', roles: ['Super Administrador', 'Administrador', 'Almacenero', 'Reponedor', 'Inventarista'] },
+    { path: '/productos', icon: Package, label: 'Inventory', roles: ['Super Administrador', 'Administrador', 'Almacenero', 'Reponedor', 'Inventarista'] },
+    { path: '/reportes', icon: BarChart2, label: 'Reports', roles: ['Super Administrador', 'Administrador', 'Contabilidad'] },
+    { path: '/proveedores', icon: Truck, label: 'Suppliers', roles: ['Super Administrador', 'Administrador', 'Almacenero'] },
     { path: '/mermas', icon: AlertTriangle, label: 'Mermas (Pérdidas)', roles: ['Super Administrador', 'Administrador', 'Almacenero', 'Inventarista'] },
     { path: '/compras', icon: PackagePlus, label: 'Ingreso (Compras)', roles: ['Super Administrador', 'Administrador', 'Almacenero'] },
     { path: '/historial-compras', icon: History, label: 'Historial Compras', roles: ['Super Administrador', 'Administrador', 'Almacenero'] },
@@ -40,7 +43,6 @@ const Dashboard = () => {
     { path: '/ventas', icon: ShoppingCart, label: 'Punto de Venta', roles: ['Super Administrador', 'Administrador', 'Trabajador', 'Cajero'] },
     { path: '/gastos', icon: TrendingDown, label: 'Caja Chica (Gastos)', roles: ['Super Administrador', 'Administrador', 'Trabajador', 'Cajero', 'Contabilidad'] },
     { path: '/cajas', icon: DollarSign, label: 'Arqueos (Cajas)', roles: ['Super Administrador', 'Administrador', 'Contabilidad'] },
-    { path: '/proveedores', icon: Truck, label: 'Proveedores', roles: ['Super Administrador', 'Administrador', 'Almacenero'] },
     { path: '/rrhh', icon: Users, label: 'Personal', roles: ['Super Administrador', 'Recursos Humanos'] },
     { path: '/contabilidad', icon: PieChart, label: 'Finanzas', roles: ['Super Administrador', 'Contabilidad'] },
   ];
@@ -69,11 +71,10 @@ const Dashboard = () => {
           <div className="w-8 h-8 bg-primary rounded flex items-center justify-center mr-3">
             <Store className="text-white" size={18} />
           </div>
-          <h1 className="text-xl font-black text-primary tracking-tight">OCMR <span className="font-medium text-slate-800">ERP</span></h1>
+          <h1 className="text-xl font-black text-primary tracking-tight">KANBAN</h1>
         </div>
 
         <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto custom-scrollbar">
-          <div className="px-4 mb-3 text-xs font-bold text-slate-400 uppercase tracking-wider">Módulos</div>
           {filteredMenu.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
@@ -83,7 +84,7 @@ const Dashboard = () => {
                 onClick={() => navigate(item.path)}
                 className={`w-full flex items-center px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200 group ${
                   isActive 
-                    ? 'bg-primary/10 text-primary' 
+                    ? 'text-primary font-bold' 
                     : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
                 }`}
               >
@@ -96,10 +97,10 @@ const Dashboard = () => {
         <div className="p-4 border-t border-slate-100">
           <button 
             onClick={handleLogout}
-            className="w-full flex items-center justify-center px-4 py-3 text-sm font-bold text-danger bg-danger/5 hover:bg-danger/10 rounded-xl transition-colors"
+            className="w-full flex items-center px-4 py-3 text-sm font-bold text-slate-500 hover:text-slate-700 hover:bg-slate-50 rounded-xl transition-colors"
           >
-            <LogOut size={18} className="mr-2" />
-            Cerrar Sesión
+            <LogOut size={18} className="mr-3 text-slate-400" />
+            Log Out
           </button>
         </div>
       </aside>
@@ -107,16 +108,16 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0 bg-slate-50/50">
         
-        {/* Topbar (NUEVO) */}
-        <header className="h-20 bg-white border-b border-slate-100 flex items-center justify-between px-8 shrink-0 z-10">
+        {/* Topbar */}
+        <header className="h-20 bg-white flex items-center justify-between px-8 shrink-0 z-10 border-b border-slate-100">
           <div className="w-96 relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search className="h-5 w-5 text-slate-400" />
             </div>
             <input
               type="text"
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary sm:text-sm transition-colors"
-              placeholder="Buscar producto, proveedor, orden..."
+              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl leading-5 bg-white placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary sm:text-sm transition-colors"
+              placeholder="Search product, supplier, order..."
             />
           </div>
           <div className="flex items-center gap-6">
@@ -124,7 +125,7 @@ const Dashboard = () => {
               <Bell className="h-6 w-6" />
               <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-danger ring-2 ring-white"></span>
             </button>
-            <div className="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-primary flex items-center justify-center text-white font-bold shadow-md shadow-primary/20 cursor-pointer">
+            <div className="h-10 w-10 rounded-full bg-gradient-to-r from-slate-200 to-slate-300 flex items-center justify-center text-slate-700 font-bold overflow-hidden cursor-pointer">
               {currentUser?.email?.charAt(0).toUpperCase()}
             </div>
           </div>
@@ -132,10 +133,10 @@ const Dashboard = () => {
 
         <div className="flex-1 p-8 overflow-y-auto custom-scrollbar relative">
           <Routes>
-            {/* Redirección basada en rol solo si es necesario, o mostrar el Dashboard Home */}
             <Route path="/" element={<Home />} />
             
             <Route path="/productos" element={<RoleRoute element={<Products />} allowedRoles={['Super Administrador', 'Administrador', 'Almacenero', 'Reponedor', 'Inventarista']} />} />
+            <Route path="/reportes" element={<RoleRoute element={<Reports />} allowedRoles={['Super Administrador', 'Administrador', 'Contabilidad']} />} />
             <Route path="/mermas" element={<RoleRoute element={<Shrinkage />} allowedRoles={['Super Administrador', 'Administrador', 'Almacenero', 'Inventarista']} />} />
             <Route path="/compras" element={<RoleRoute element={<Purchases />} allowedRoles={['Super Administrador', 'Administrador', 'Almacenero']} />} />
             <Route path="/historial-compras" element={<RoleRoute element={<PurchaseHistory />} allowedRoles={['Super Administrador', 'Administrador', 'Almacenero']} />} />

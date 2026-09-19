@@ -1,8 +1,8 @@
 import { useData } from '../contexts/DataContext';
-import { Package, TrendingUp, AlertTriangle, Users, DollarSign, Activity, FileText, XCircle, Undo2, ArrowUpRight } from 'lucide-react';
+import { Package, TrendingUp, AlertTriangle, Users, DollarSign, Activity, FileText, XCircle, Undo2, ArrowUpRight, Truck } from 'lucide-react';
 
 export const Home = () => {
-  const { products, sales, purchases, suppliers, loadingProducts, loadingSales } = useData();
+  const { products, sales, purchases, suppliers } = useData();
 
   const lowStockProducts = products.filter(p => p.stockActual <= p.stockMinimo);
   
@@ -10,8 +10,8 @@ export const Home = () => {
   today.setHours(0, 0, 0, 0);
 
   const todaysSales = sales.filter(s => {
-    if (!s.fecha) return false;
-    const d = s.fecha.toDate ? s.fecha.toDate() : new Date(s.fecha);
+    if (!s.fechaVenta) return false;
+    const d = s.fechaVenta.toDate ? s.fechaVenta.toDate() : new Date(s.fechaVenta);
     return d >= today;
   });
 
@@ -36,8 +36,8 @@ export const Home = () => {
   // Calcular productos más vendidos (Top Selling)
   const productSalesMap = new Map<string, number>();
   sales.forEach(sale => {
-    sale.items.forEach(item => {
-      productSalesMap.set(item.productId, (productSalesMap.get(item.productId) || 0) + item.cantidad);
+    sale.articulos?.forEach(item => {
+      productSalesMap.set(item.productoId, (productSalesMap.get(item.productoId) || 0) + item.cantidad);
     });
   });
 

@@ -60,7 +60,7 @@ export const voidPurchase = async (purchaseId: string) => {
   if (!purchaseSnap.exists()) throw new Error("Purchase not found");
   
   const purchase = purchaseSnap.data() as Purchase;
-  if (purchase.estado === 'Anulado') throw new Error("Already voided");
+  if ((purchase.estado as string) === 'Anulado') throw new Error("Already voided");
 
   const batch = writeBatch(db);
   batch.update(purchaseRef, { estado: 'Anulado' });

@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import type { Product, Shrinkage as ShrinkageType } from '../types';
 import { useData } from '../contexts/DataContext';
+import { useAuth } from '../contexts/AuthContext';
 import { registerShrinkage, subscribeToShrinkages } from '../services/shrinkageService';
 import { AlertTriangle, Search, Trash2 } from 'lucide-react';
 
 export const Shrinkage = () => {
-  const { products, currentUser } = useData();
+  const { products } = useData();
+  const { currentUser } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [shrinkages, setShrinkages] = useState<ShrinkageType[]>([]);
   
