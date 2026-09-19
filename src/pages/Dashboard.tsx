@@ -15,6 +15,7 @@ import { Shrinkage } from './Shrinkage';
 import { PurchaseHistory } from './PurchaseHistory';
 import { Home } from './Home';
 import { Reports } from './Reports';
+import { ManageStore } from './ManageStore';
 import { LogOut, Package, ShoppingCart, Users, PieChart, Store, Truck, ShieldAlert, PackagePlus, ClipboardList, DollarSign, TrendingDown, AlertTriangle, History, Activity, Search, Bell, BarChart2 } from 'lucide-react';
 
 const Dashboard = () => {
@@ -36,9 +37,10 @@ const Dashboard = () => {
     { path: '/productos', icon: Package, label: 'Inventory', roles: ['Super Administrador', 'Administrador', 'Almacenero', 'Reponedor', 'Inventarista'] },
     { path: '/reportes', icon: BarChart2, label: 'Reports', roles: ['Super Administrador', 'Administrador', 'Contabilidad'] },
     { path: '/proveedores', icon: Truck, label: 'Suppliers', roles: ['Super Administrador', 'Administrador', 'Almacenero'] },
-    { path: '/mermas', icon: AlertTriangle, label: 'Mermas (Pérdidas)', roles: ['Super Administrador', 'Administrador', 'Almacenero', 'Inventarista'] },
-    { path: '/compras', icon: PackagePlus, label: 'Ingreso (Compras)', roles: ['Super Administrador', 'Administrador', 'Almacenero'] },
+    { path: '/compras', icon: PackagePlus, label: 'Orders', roles: ['Super Administrador', 'Administrador', 'Almacenero'] },
+    { path: '/manage-store', icon: Store, label: 'Manage Store', roles: ['Super Administrador', 'Administrador'] },
     { path: '/historial-compras', icon: History, label: 'Historial Compras', roles: ['Super Administrador', 'Administrador', 'Almacenero'] },
+    { path: '/mermas', icon: AlertTriangle, label: 'Mermas (Pérdidas)', roles: ['Super Administrador', 'Administrador', 'Almacenero', 'Inventarista'] },
     { path: '/kardex', icon: ClipboardList, label: 'Auditoría Stock', roles: ['Super Administrador', 'Administrador', 'Inventarista'] },
     { path: '/ventas', icon: ShoppingCart, label: 'Punto de Venta', roles: ['Super Administrador', 'Administrador', 'Trabajador', 'Cajero'] },
     { path: '/gastos', icon: TrendingDown, label: 'Caja Chica (Gastos)', roles: ['Super Administrador', 'Administrador', 'Trabajador', 'Cajero', 'Contabilidad'] },
@@ -147,6 +149,7 @@ const Dashboard = () => {
             <Route path="/proveedores" element={<RoleRoute element={<Suppliers />} allowedRoles={['Super Administrador', 'Administrador', 'Almacenero']} />} />
             <Route path="/rrhh" element={<RoleRoute element={<HR />} allowedRoles={['Super Administrador', 'Recursos Humanos']} />} />
             <Route path="/contabilidad" element={<RoleRoute element={<Accounting />} allowedRoles={['Super Administrador', 'Contabilidad']} />} />
+            <Route path="/manage-store" element={<RoleRoute element={<ManageStore />} allowedRoles={['Super Administrador', 'Administrador']} />} />
             
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
